@@ -1,0 +1,58 @@
+
+Getting the list of links can be tricky
+
+Navigate to https://www.jw.org/en/publications/bible/nwt/
+
+Hover over the headphone icon and right click MP3, then copy link
+
+This was it when I tried it
+https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1
+
+Now use lynx to dump the link where the MP3 files are located
+
+
+poirot-jkstill-~/nwt/audio-2013-18:23:32
+> lynx -dump -listonly 'https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1'
+
+References
+
+   1. https://www.jw.org/apps/TRGCHlZRQVNYVrXF?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E
+
+
+Now use lynx to dump the list of links in the referenced links
+
+
+poirot-jkstill-~/nwt/audio-2013-18:23:42
+> lynx -dump -listonly 'https://www.jw.org/apps/TRGCHlZRQVNYVrXF?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E'
+
+References
+
+   1. https://download-a.akamaihd.net/files/media_bible/2e/nwt_15_Ezr_E.mp3.zip
+   2. https://download-a.akamaihd.net/files/media_bible/eb/nwt_16_Ne_E.mp3.zip
+   3. https://download-a.akamaihd.net/files/media_bible/73/nwt_17_Es_E.mp3.zip
+   4. https://download-a.akamaihd.net/files/media_bible/f8/nwt_18_Job_E.mp3.zip
+   5. https://download-a.akamaihd.net/files/media_bible/7d/nwt_40_Mt_E.mp3.zip
+   6. https://download-a.akamaihd.net/files/media_bible/4d/nwt_41_Mr_E.mp3.zip
+   7. https://download-a.akamaihd.net/files/media_bible/30/nwt_42_Lu_E.mp3.zip
+   8. https://download-a.akamaihd.net/files/media_bible/9b/nwt_48_Ga_E.mp3.zip
+   9. https://download-a.akamaihd.net/files/media_bible/bc/nwt_50_Php_E.mp3.zip
+  10. https://download-a.akamaihd.net/files/media_bible/e0/nwt_52_1Th_E.mp3.zip
+  11. https://download-a.akamaihd.net/files/media_bible/0b/nwt_53_2Th_E.mp3.zip
+  12. https://download-a.akamaihd.net/files/media_bible/d5/nwt_57_Phm_E.mp3.zip
+  13. https://download-a.akamaihd.net/files/media_bible/ef/nwt_15_Ezr_E.m4b
+  14. https://download-a.akamaihd.net/files/media_bible/1c/nwt_16_Ne_E.m4b
+  15. https://download-a.akamaihd.net/files/media_bible/39/nwt_17_Es_E.m4b
+  16. https://download-a.akamaihd.net/files/media_bible/7f/nwt_18_Job_E.m4b
+  17. https://download-a.akamaihd.net/files/media_bible/83/nwt_40_Mt_E.m4b
+  18. https://download-a.akamaihd.net/files/media_bible/eb/nwt_41_Mr_E.m4b
+  19. https://download-a.akamaihd.net/files/media_bible/c1/nwt_42_Lu_E.m4b
+  20. https://download-a.akamaihd.net/files/media_bible/2d/nwt_48_Ga_E.m4b
+  21. https://download-a.akamaihd.net/files/media_bible/a6/nwt_50_Php_E.m4b
+  22. https://download-a.akamaihd.net/files/media_bible/0b/nwt_52_1Th_E.m4b
+  23. https://download-a.akamaihd.net/files/media_bible/d6/nwt_53_2Th_E.m4b
+  24. https://download-a.akamaihd.net/files/media_bible/07/nwt_57_Phm_E.m4b
+
+
+
+
+
