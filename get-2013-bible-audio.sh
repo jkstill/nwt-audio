@@ -16,7 +16,7 @@ mkdir -p zips || {
 
 cd zips
 
-: <<'JKS-DOC'
+#: <<'JKS-DOC'
 
 lynx -dump -listonly $listURL | grep mp3 | while read enumerator mp3url
 do
@@ -24,7 +24,7 @@ do
 	wget --no-check-certificate $mp3url
 done
 
-JKS-DOC
+#JKS-DOC
 
 cd $BASEDIR
 
