@@ -66,11 +66,11 @@ cd zips
 lynx -dump -listonly $listURL | grep mp3 | while read enumerator mp3url
 do
 	echo getting $mp3url
+	filename=$(basename $mp3url)
 	if [[ $LISTONLY -lt 1 ]]; then
 		if [[ $OVERWRITE -lt 1 ]]; then
-	 		wget --no-check-certificate $mp3url
+	 		wget --no-check-certificate -O $filename $mp3url
 		else # do not overwrite existing file
-			filename=$(basename $mp3url)
 			echo filename: $filename
 			if [[ -f $filename ]]; then
 				echo skipping $filename - already stored
@@ -118,17 +118,17 @@ for zipfile in $BASEDIR/zips/*.zip
 do
 	# get the numeric position of the book in the list
 	bookPos=$(echo $zipfile | cut -f2 -d_)
-	echo bookPos-1: $bookPos
+	#echo bookPos-1: $bookPos
 
 	# should the number of the book not include a leading zero for 1-9 then add it
 	# this will cause the books to appear sorted in the same order as in the Bible
 	echo $bookPos | grep -E '^1$|^2$|^3$|^4$|^5$|^6$|^7$|^8$|^9$' > /dev/null
 	RC=$?
-	echo RC: $RC
+	#echo RC: $RC
 	[[ $RC -eq 0 ]] && bookPos="0${bookPos}"
 
 	book=${bb[$bookPos]}
-	echo bookPos-2: $bookPos
+	#echo bookPos-2: $bookPos
 	echo working on $book
 	mkdir -p $book
 	RC=$?
