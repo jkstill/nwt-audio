@@ -1,4 +1,16 @@
 
+Download the Dramatic Audio recordings of the 2013 NWT 
+
+This is a bash script.
+
+For those that do not know what bash is, a linux computer is required for this to work.
+
+This script is 'future-proofed' in that as long as the filename format doesn't change,
+any new recordings will be automatically downloaded. If the URL's change, that will require
+some script modifications as well.
+
+Run 'get-2013-bible-audio.sh -h ' for a help screen
+
 Getting the list of links can be tricky
 
 Navigate to https://www.jw.org/en/publications/bible/nwt/

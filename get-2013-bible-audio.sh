@@ -1,5 +1,43 @@
 #!/bin/bash
 
+function usage {
+cat <<-EOF
+
+usage: $0
+
+-o overwrite - default is to not overwrite
+-b bible book list - default is bb-list.txt
+-l list available files only and exit
+
+EOF
+}
+
+OVERWRITE=1
+LISTONLY=0
+bookList='bb-list.txt'
+AUDIO_DIR='nwt-audio'
+
+while getopts b:olh arg
+do
+	case $arg in
+		o) OVERWRITE=0;;
+		l) LISTONLY=1;;
+		b) bookList=$OPTARG;;
+		h) usage;exit 0;;
+		*) usage;exit 5;;
+	esac
+done
+
+: <<'JKS-DOC'
+cat <<EOF
+OVERWRITE: $OVERWRITE
+LISTONLY: $LISTONLY
+bookList: $bookList
+EOF
+
+exit
+JKS-DOC
+
 
 # run from the current directory
 BASEDIR=$(pwd)
@@ -7,6 +45,13 @@ BASEDIR=$(pwd)
 mainURL='https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1'
 
 listURL=$(lynx -dump -listonly $mainURL | grep http | awk '{ print $2 }')
+
+
+[ -f "$bookList" -a -r "$bookList" ] || {
+	echo
+	echo $bookList is missing or unreadable
+	exit 4
+}
 
 
 mkdir -p zips || {
@@ -21,30 +66,45 @@ cd zips
 lynx -dump -listonly $listURL | grep mp3 | while read enumerator mp3url
 do
 	echo getting $mp3url
-	wget --no-check-certificate $mp3url
+	if [[ $LISTONLY -lt 1 ]]; then
+		if [[ $OVERWRITE -lt 1 ]]; then
+	 		wget --no-check-certificate $mp3url
+		else # do not overwrite existing file
+			filename=$(basename $mp3url)
+			echo filename: $filename
+			if [[ -f $filename ]]; then
+				echo skipping $filename - already stored
+			else
+				wget --no-check-certificate $mp3url
+			fi
+		fi
+	fi
 done
+
+[[ $LISTONLY -gt 0 ]] && exit
 
 #JKS-DOC
 
 cd $BASEDIR
 
 ## bb: bible books
-declare -A bb
-bb=( [Ezr]='15-Ezra' \
-	[Ne]='16-Nehemiah' \
-	[Es]='17-Esther' \
-	[Job]='18-Job' \
-	[Mt]='40-Matthew' \
-	[Mr]='41-Mark' \
-	[Lu]='42-Luke' \
-	[Ga]='48-Galatians' \
-	[Php]='50-Philippians' \
-	[1Th]='52-1-Thessalonians' \
-	[2Th]='53-2-Thessalonians' \
-	[Phm]='57-Philemon' \
-) 
+# the format of the file names allows parsing by the ordinal position of
+# the book in the 66 books.
+# it is unknown if the first 9 books will be '_N_' or '_NN_' so both are allowed for
+# ie. '_1_' or '_01_'
 
-mkdir -p bb-audio
+declare -A bb
+declare -a bookArray
+
+while read -a bookArray
+do
+	bbNum=${bookArray[0]}
+	book=$(echo ${bookArray[@]} | sed -re 's/\s+/-/g')
+	bb[$bbNum]=$book
+	echo book: "$bbNum: $book"
+done < $bookList
+
+mkdir -p $AUDIO_DIR
 RC=$?
 
 if [[ $RC -gt 0 ]]; then
@@ -52,12 +112,23 @@ if [[ $RC -gt 0 ]]; then
 	exit 2
 fi
 
-cd nwt-audio
+cd $AUDIO_DIR
 
 for zipfile in $BASEDIR/zips/*.zip
 do
-	abbrev=$(echo $zipfile | cut -f3 -d_)
-	book=${bb[$abbrev]}
+	# get the numeric position of the book in the list
+	bookPos=$(echo $zipfile | cut -f2 -d_)
+	echo bookPos-1: $bookPos
+
+	# should the number of the book not include a leading zero for 1-9 then add it
+	# this will cause the books to appear sorted in the same order as in the Bible
+	echo $bookPos | grep -E '^1$|^2$|^3$|^4$|^5$|^6$|^7$|^8$|^9$' > /dev/null
+	RC=$?
+	echo RC: $RC
+	[[ $RC -eq 0 ]] && bookPos="0${bookPos}"
+
+	book=${bb[$bookPos]}
+	echo bookPos-2: $bookPos
 	echo working on $book
 	mkdir -p $book
 	RC=$?
