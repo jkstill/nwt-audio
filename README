@@ -15,23 +15,17 @@ Getting the list of links can be tricky
 
 Navigate to https://www.jw.org/en/publications/bible/nwt/
 
-Hover over the headphone icon and right click MP3, then copy link
-
-This was it when I tried it
-https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1
-
-Now use lynx to dump the link where the MP3 files are located
+Click on the the headphone to open the page
 
 
-poirot-jkstill-~/nwt/audio-2013-18:23:32
-> lynx -dump -listonly 'https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1'
+Now view the page source (right click anywhere with Chrome)
 
-References
+Look for iFrame - this is the link you want.
 
-   1. https://www.jw.org/apps/TRGCHlZRQVNYVrXF?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E
+https://apps.jw.org/GETPUBMEDIALINKS?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E
 
 
-Now use lynx to dump the list of links in the referenced links
+Now use lynx to dump the list of links to audio files
 
 
 poirot-jkstill-~/nwt/audio-2013-18:23:42

@@ -42,7 +42,7 @@ JKS-DOC
 # run from the current directory
 BASEDIR=$(pwd)
 
-mainURL='https://www.jw.org/download/?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E&isBible=1'
+mainURL='https://apps.jw.org/GETPUBMEDIALINKS?booknum=0&output=html&pub=nwt&fileformat=MP3%2CAAC&alllangs=0&langwritten=E&txtCMSLang=E'
 
 listURL=$(lynx -dump -listonly $mainURL | grep http | awk '{ print $2 }')
 
